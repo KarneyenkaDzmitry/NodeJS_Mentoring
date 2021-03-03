@@ -2,10 +2,13 @@
   "name": "nodejs_mentoring_program",
   "version": "1.0.0",
   "description": "The bunch of tasks should be done in terms of the project as hometasks",
-  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "task1": "nodemon ./basics/string.reverse.js"
+    "tsc": "tsc",
+    "task1": "nodemon ./basics/string.reverse.js",
+    "postinstall": "tsc",
+    "pretask2": "tsc",
+    "task2": "nodemon ./build/csv.serve.js"
   },
   "repository": {
     "type": "git",
@@ -13,8 +16,12 @@
   },
   "author": "Dzmitry_Karneyenka@epam.com",
   "license": "ISC",
-  "dependencies": {},
+  "dependencies": {
+    "csvtojson": "^2.0.10"
+  },
   "devDependencies": {
-    "nodemon": "^2.0.7"
+    "@types/node": "^14.14.31",
+    "nodemon": "^2.0.7",
+    "typescript": "^4.2.2"
   }
 }
