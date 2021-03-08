@@ -3,8 +3,8 @@ import { createReadStream, createWriteStream, constants } from 'fs';
 import { join, resolve, basename } from 'path';
 import csvtojson from 'csvtojson/v2';
 
-const CSV_WORK_DIR = join(resolve('.'), 'csv');
-const CSV_DEST_DIR = join(resolve('.'), 'csv-parsed');
+const CSV_WORK_DIR = join(resolve('.'), 'temp', 'csv');
+const CSV_DEST_DIR = join(resolve('.'), 'temp', 'csv-parsed');
 console.debug(`Working Directory:\t[${CSV_WORK_DIR}]`);
 console.debug(`Target Directory:\t[${CSV_DEST_DIR}]`);
 

@@ -3,12 +3,13 @@
   "version": "1.0.0",
   "description": "The bunch of tasks should be done in terms of the project as hometasks",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "npm run tsc && npm run babel:tsc",
     "tsc": "tsc",
-    "task1": "nodemon ./basics/string.reverse.js",
-    "postinstall": "tsc",
-    "pretask2": "tsc",
-    "task2": "nodemon ./build/csv.serve.js"
+    "babel:tsc": "babel  --extensions \".ts\" ./src --out-dir ./lib",
+    "task1": "nodemon ./build/utils/string.reverse.js",
+    "task2": "nodemon ./build/utils/csv.serve.js",
+    "task1:babel": "nodemon ./lib/utils/string.reverse.js",
+    "task2:babel": "nodemon ./lib/utils/csv.serve.js"
   },
   "repository": {
     "type": "git",
@@ -17,10 +18,32 @@
   "author": "Dzmitry_Karneyenka@epam.com",
   "license": "ISC",
   "dependencies": {
-    "csvtojson": "^2.0.10"
+    "csvtojson": "^2.0.10",
+    "ts-node": "^9.1.1"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-typescript",
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "node": 4
+          }
+        }
+      ]
+    ],
+    "plugins": []
   },
   "devDependencies": {
-    "@types/node": "^14.14.31",
+    "@babel/cli": "^7.13.0",
+    "@babel/core": "^7.13.8",
+    "@babel/node": "^7.13.0",
+    "@babel/plugin-transform-typescript": "^7.13.0",
+    "@babel/polyfill": "^7.12.1",
+    "@babel/preset-env": "^7.13.9",
+    "@babel/preset-typescript": "^7.13.0",
+    "@types/node": "^14.14.32",
     "nodemon": "^2.0.7",
     "typescript": "^4.2.2"
   }
