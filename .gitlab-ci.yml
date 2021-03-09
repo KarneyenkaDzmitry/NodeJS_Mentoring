@@ -1,14 +1,25 @@
-build-job:
+# This file is a template, and might need editing before it works on your project.
+# Official framework image. Look for the different tagged releases at:
+# https://hub.docker.com/r/library/node/tags/
+image: node:latest
+
+stages:
+  - build
+  - test
+  - test2
+  - deploy
+
+build:
   stage: build
   script:
     - echo "Hello, $GITLAB_USER_LOGIN!"
 
-test-job1:
+test:
   stage: test
   script:
     - echo "This job tests something"
 
-test-job2:
+test2:
   stage: test
   script:
     - echo "This job tests something, but takes more time than test-job1."
@@ -16,7 +27,33 @@ test-job2:
     - echo "which simulates a test that runs 20 seconds longer than test-job1"
     - sleep 20
 
-deploy-prod:
+deploy:
   stage: deploy
   script:
     - echo "This job deploys something from the $CI_COMMIT_BRANCH branch."
+
+
+
+# Pick zero or more services to be used on all builds.
+# Only needed when using a docker container to run your tests in.
+# Check out: http://docs.gitlab.com/ee/ci/docker/using_docker_images.html#what-is-a-service
+# services:
+#   - mysql:latest
+#   - redis:latest
+#   - postgres:latest
+
+# # This folder is cached between builds
+# # http://docs.gitlab.com/ee/ci/yaml/README.html#cache
+# cache:
+#   paths:
+#     - node_modules/
+
+# test_async:
+#   script:
+#     - npm install
+#     - node ./specs/start.js ./specs/async.spec.js
+
+# test_db:
+#   script:
+#     - npm install
+#     - node ./specs/start.js ./specs/db-postgres.spec.js
