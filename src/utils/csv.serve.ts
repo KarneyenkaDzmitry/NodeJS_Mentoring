@@ -32,7 +32,7 @@ async function main() {
 async function getListCSVFiles(path: string): Promise<any> {
     try {
         let names = await readdir(path);
-        names = names.filter(name => name.endsWith('csv'));
+        names = names.filter((name: string) => name.endsWith('csv'));
         return names;
     } catch (error) {
         console.error(`ERROR: ${error.message}`);
