@@ -5,5 +5,5 @@ const liner: Interface = createInterface({
 });
 
 liner.on('line', (line: string) => {
-    console.log([...line].reverse().reduce((accum: string, next: string) => accum += next));
+    console.log([...line].reverse().join());
 })
