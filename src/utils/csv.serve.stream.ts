@@ -20,7 +20,7 @@ async function main() {
             const writeStream = createWriteStream(filepathD);
             const csv = csvtojson({ output: "json", noheader: false })
             readStream.pipe(csv).pipe(writeStream);
-            // csv.on('data', (data) => console.log(`Data Line: [${data}]`))
+            csv.on('data', (data) => console.log(`Data Line: [${data}]`))
             await rm(filepathR);
         } catch (error) {
             console.error('Oups...Something went wrong!');

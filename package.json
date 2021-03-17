@@ -7,7 +7,9 @@
     "tsc": "tsc",
     "babel:tsc": "babel  --extensions \".ts\" ./src --out-dir ./lib",
     "task1": "nodemon --config ./nodemon.dev.json ./src/utils/string.reverse.ts",
-    "task2": "nodemon --config ./nodemon.dev.json ./src/utils/csv.serve.ts",
+    "task2": "npm run task2:stream",
+    "task2:stream": "nodemon --config ./nodemon.dev.json ./src/utils/csv.serve.stream.ts",
+    "task2:no_stream": "nodemon --config ./nodemon.dev.json ./src/utils/csv.serve.no_stream.ts",
     "task3.1:babel": "nodemon ./lib/utils/string.reverse.js",
     "task3.2:babel": "nodemon ./lib/utils/csv.serve.js",
     "prepare": "husky install"
