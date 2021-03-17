@@ -6,8 +6,8 @@
     "postinstall": "npm run tsc && npm run babel:tsc",
     "tsc": "tsc",
     "babel:tsc": "babel  --extensions \".ts\" ./src --out-dir ./lib",
-    "task1": "nodemon ./build/utils/string.reverse.js",
-    "task2": "nodemon ./build/utils/csv.serve.js",
+    "task1": "nodemon --config ./nodemon.dev.json ./src/utils/string.reverse.ts",
+    "task2": "nodemon --config ./nodemon.dev.json ./src/utils/csv.serve.ts",
     "task3.1:babel": "nodemon ./lib/utils/string.reverse.js",
     "task3.2:babel": "nodemon ./lib/utils/csv.serve.js",
     "prepare": "husky install"
@@ -32,19 +32,5 @@
     "husky": "^5.1.3",
     "nodemon": "^2.0.7",
     "typescript": "^4.2.2"
-  },
-  "babel": {
-    "presets": [
-      "@babel/preset-typescript",
-      [
-        "@babel/preset-env",
-        {
-          "targets": {
-            "node": 4
-          }
-        }
-      ]
-    ],
-    "plugins": []
   }
 }
