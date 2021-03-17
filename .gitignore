@@ -4,3 +4,4 @@ lib
 .husky
 .vscode
 .idea
+tsconfig.json
