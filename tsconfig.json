@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "es5",                         
+    "module": "commonjs",                    
+    "lib": ["es5", "es6", "dom"],
+    "declaration": true,                      
+    "esModuleInterop": true,                  
+    "sourceMap": true,                       
+    "moduleResolution": "node",               
+    "outDir": "./build",                     
+    "rootDir": "./src",                     
+    "downlevelIteration": true,              
+    "strict": true,                          
+    "forceConsistentCasingInFileNames": true 
+  }
+}

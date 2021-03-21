@@ -1,0 +1,16 @@
+{
+    "ignore": [
+        "test/*",
+        "docs/*",
+        "lib/*",
+        "build/*",
+        "dist/*",
+        "src/**/*.spec.ts"
+    ],
+    "delay": "2500",
+    "watch": [
+        "src"
+    ],
+    "ext": "ts",
+    "exec": "npx ts-node"
+}
