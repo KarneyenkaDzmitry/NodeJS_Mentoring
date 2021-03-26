@@ -1,7 +1,6 @@
 import { Users } from './users.interface';
 import { User, BaseUser } from './user.interface';
 import * as uuid from 'uuid';
-import { usersDB } from '../../db/used.db.trial';
 
 export class UsersDB implements Users {
 
@@ -12,6 +11,30 @@ export class UsersDB implements Users {
     findAll(): Promise<User[]> { return Promise.resolve(this.users) };
 
     find(id: string): Promise<User | undefined> { return Promise.resolve(this.users.find(user => user.id === id)) };
+
+    async getAutoSuggestUsers(loginSubstring: string, limit: number): Promise<User[]> {
+        let result: User[] = [];
+        this.users = this.users.sort(({ login: lb }, { login: la }) => la > lb ? -1 : la < lb ? 1 : 0);
+        result = this.users;
+        if ((loginSubstring) && loginSubstring.length > 0) {
+            result = result.filter(({ login }) => login.includes(loginSubstring))
+        }
+        if (limit as number > 0) {
+            result = await this.splitOnChunks(result, limit);
+        }
+        return Promise.resolve(result);
+    }
+
+    splitOnChunks(users: User[], limit: number): Promise<User[]> {
+        if (users.length <= limit) {
+            return Promise.resolve(users);
+        } else {
+            const chunk: User[] = users.slice(0, limit);
+            return Promise.resolve(chunk)
+        }
+
+
+    }
 
     async create(baseUser: BaseUser): Promise<string> {
         if ("login" in baseUser && "password" in baseUser && "isDeleted" in baseUser && "age" in baseUser) {

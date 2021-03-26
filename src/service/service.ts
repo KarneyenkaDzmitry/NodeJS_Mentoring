@@ -31,8 +31,14 @@ service.get('/api/user/:id', async (req: Request, res: Response) => {
 })
 
 service.get('/api/users', async (req: Request, res: Response) => {
-    const users: User[] = await usersDB.findAll();
-    res.status(200).json(users);
+    const limit: any = req.query.limit;
+    const loginSubstring: any = req.query.loginSubstring;
+    try {
+        const users: User[] = await usersDB.getAutoSuggestUsers(loginSubstring as string, limit as number)
+        res.status(200).json(users);
+    } catch (error) {
+        res.status(500).send();
+    }
 })
 
 service.post('/api/user', async (req: Request, res: Response): Promise<any> => {
