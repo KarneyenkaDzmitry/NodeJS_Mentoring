@@ -1,7 +1,7 @@
-node_modules
-build
-lib
 .husky
 .vscode
 .idea
+node_modules
+build
+lib
 tsconfig.json
