@@ -74,3 +74,4 @@
 | task2:no_stream | `nodemon --config ./nodemon.dev.json ./src/utils/csv.serve.no_stream.ts` | Run the solution for Task 2 with usage regular usage of readFile and appendFile functions         |
 | task3.1:babel   | `nodemon ./lib/utils/string.reverse.js`                                  | Run the solution for Task 3.1                                                                     |
 | task3.2:babel   | `nodemon ./lib/utils/csv.serve.stream.js`                                | Run the solution for Task 3.2                                                                     |
+| start:dev       | `nodemon ./index.ts`                                                     | Run the solution for the Module_2: ExpessJS server                                                |
