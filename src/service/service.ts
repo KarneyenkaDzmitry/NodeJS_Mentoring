@@ -1,9 +1,9 @@
 import express, { Request, Response } from 'express';
-import assert from 'assert';
-import { create } from 'ts-node';
 import { usersDB } from './db/used.db.trial';
 import { BaseUser, User } from './models/users/user.interface';
-import bodyParser from 'body-parser';
+import { userSchema } from './models/schemas/user.schema';
+
+// import bodyParser from 'body-parser';
 // import cors from "cors";
 // import helmet from "helmet";
 
@@ -37,13 +37,14 @@ service.get('/api/users', async (req: Request, res: Response) => {
         const users: User[] = await usersDB.getAutoSuggestUsers(loginSubstring as string, limit as number)
         res.status(200).json(users);
     } catch (error) {
-        res.status(500).send();
+        res.status(400).send();
     }
 })
 
 service.post('/api/user', async (req: Request, res: Response): Promise<any> => {
     const user: BaseUser = req.body;
     try {
+        await userSchema.validateAsync(user);
         const id = await usersDB.create(user);
         res.status(200).send(id);
     } catch (error) {
@@ -57,6 +58,7 @@ service.put('/api/user/:id', async (req: Request, res: Response): Promise<any> =
     const { body }: { body: BaseUser } = req;
     const user: User = { ...body, id }
     try {
+        await userSchema.validateAsync(user);
         const userDB = await usersDB.update(user);
         res.status(200).send(userDB);
     } catch (error) {
