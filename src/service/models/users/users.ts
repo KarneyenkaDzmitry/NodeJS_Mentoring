@@ -1,12 +1,9 @@
-import { Users } from './users.interface';
 import { User, BaseUser } from './user.interface';
 import * as uuid from 'uuid';
 
-export class UsersDB implements Users {
+export class UsersDB {
 
-    users: User[];
-
-    constructor(users: User[]) { this.users = users; }
+    constructor(private users: User[]) { }
 
     findAll(): Promise<User[]> { return Promise.resolve(this.users) };
 
@@ -32,8 +29,6 @@ export class UsersDB implements Users {
             const chunk: User[] = users.slice(0, limit);
             return Promise.resolve(chunk)
         }
-
-
     }
 
     async create(baseUser: BaseUser): Promise<string> {
@@ -46,7 +41,6 @@ export class UsersDB implements Users {
         } else {
             throw new Error("The object does not fulfill the expectations");
         }
-
     };
 
     async update(user: User): Promise<User> {

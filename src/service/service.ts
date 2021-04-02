@@ -3,17 +3,7 @@ import { usersDB } from './db/used.db.trial';
 import { BaseUser, User } from './models/users/user.interface';
 import { userSchema } from './models/schemas/user.schema';
 
-// import bodyParser from 'body-parser';
-// import cors from "cors";
-// import helmet from "helmet";
-
-
-/**
- *  App Configuration
- */
 const service = express();
-// service.use(helmet());
-// service.use(cors());
 service.use(express.json());
 
 service.get('/', (req: Request, res: Response): any => {

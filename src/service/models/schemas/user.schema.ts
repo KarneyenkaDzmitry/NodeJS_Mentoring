@@ -20,5 +20,3 @@ export const userSchema = Joi.object({
     id: Joi.string()
         .uuid()
 });
-
-// export const UserSchema = BaseUserSchema(BaseUserSchema)

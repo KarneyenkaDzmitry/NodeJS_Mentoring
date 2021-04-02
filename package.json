@@ -13,7 +13,7 @@
     "task2:no_stream": "nodemon --config ./nodemon.dev.json ./src/utils/csv.serve.no_stream.ts",
     "task3.1:babel": "nodemon ./lib/utils/string.reverse.js",
     "task3.2:babel": "nodemon ./lib/utils/csv.serve.js",
-    "start:dev": "nodemon ./index.ts",
+    "start:dev": "nodemon ./src/index.ts",
     "prepare": "husky install"
   },
   "repository": {
