@@ -1,17 +1,22 @@
-import { User, BaseUser } from './user.interface';
+import { IUser, IBaseUser } from './user.interface';
 import * as uuid from 'uuid';
+import { IUsers } from './users.interface';
 
-export class UsersDB {
+export class UsersDB implements IUsers {
 
-    constructor(private users: User[]) { }
+    constructor(private readonly users: IUser[]) { }
 
-    findAll(): Promise<User[]> { return Promise.resolve(this.users) };
+    private sortBDByLogin(): Array<IUser> {
+        return this.users.sort(({ login: lb }, { login: la }) => la > lb ? -1 : la < lb ? 1 : 0);
+    }
 
-    find(id: string): Promise<User | undefined> { return Promise.resolve(this.users.find(user => user.id === id)) };
+    public findAll(): Promise<IUser[]> { return Promise.resolve(this.users) };
 
-    async getAutoSuggestUsers(loginSubstring: string, limit: number): Promise<User[]> {
-        let result: User[] = [];
-        this.users = this.users.sort(({ login: lb }, { login: la }) => la > lb ? -1 : la < lb ? 1 : 0);
+    public find(id: string): Promise<IUser | undefined> { return Promise.resolve(this.users.find(user => user.id === id)) };
+
+    public async getAutoSuggestUsers(loginSubstring: string, limit: number): Promise<IUser[]> {
+        let result: IUser[] = [];
+        this.sortBDByLogin();
         result = this.users;
         if ((loginSubstring) && loginSubstring.length > 0) {
             result = result.filter(({ login }) => login.includes(loginSubstring))
@@ -22,20 +27,20 @@ export class UsersDB {
         return Promise.resolve(result);
     }
 
-    splitOnChunks(users: User[], limit: number): Promise<User[]> {
+    public splitOnChunks(users: IUser[], limit: number): Promise<IUser[]> {
         if (users.length <= limit) {
             return Promise.resolve(users);
         } else {
-            const chunk: User[] = users.slice(0, limit);
+            const chunk: IUser[] = users.slice(0, limit);
             return Promise.resolve(chunk)
         }
     }
 
-    async create(baseUser: BaseUser): Promise<string> {
+    public async create(baseUser: IBaseUser): Promise<string> {
         if ("login" in baseUser && "password" in baseUser && "isDeleted" in baseUser && "age" in baseUser) {
             const userBD = await this.users.find(user => user.login === baseUser.login);
             if (userBD) throw new Error(`User with Login [${baseUser.login}] already exists!`)
-            const user: User = { ...baseUser, id: uuid.v4() }
+            const user: IUser = { ...baseUser, id: uuid.v4() }
             this.users.push(user);
             return Promise.resolve(user.id);
         } else {
@@ -43,18 +48,18 @@ export class UsersDB {
         }
     };
 
-    async update(user: User): Promise<User> {
+    public async update(user: IUser): Promise<IUser> {
 
         if (!uuid.validate(user.id)) throw new Error(`Invalid ID: [${user.id}]`);
 
-        let userDB: User | undefined = await this.find(user.id);
+        let userDB: IUser | undefined = await this.find(user.id);
 
         if (!userDB) throw new Error("User does not exist! ");
 
         if ("login" in user && "password" in user && "isDeleted" in user && "age" in user && "id" in user) {
 
             const index: number = this.users.findIndex(usr => usr.id === user.id);
-            console.log(index);
+            console.debug("Index: [%s]", index);
             if (index < 0) throw new Error("User Not found in DB");
             const removed = this.users.splice(index, 1, user);
             console.debug('Removed: [%o]', removed[0]);
@@ -65,10 +70,10 @@ export class UsersDB {
         }
     }
 
-    async delete(id: string, soft: string | undefined): Promise<User> {
+    public async delete(id: string, soft: string | undefined): Promise<IUser> {
         if (!uuid.validate(id)) throw new Error(`Invalid ID: [${id}]`);
 
-        let userDB: User | undefined = await this.find(id);
+        let userDB: IUser | undefined = await this.find(id);
 
         if (!userDB) throw new Error("User does not exist! ");
 

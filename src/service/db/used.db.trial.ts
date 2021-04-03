@@ -1,6 +1,6 @@
 import { UsersDB } from '../models/users/users';
-import { User } from '../models/users/user.interface';
-const users: User[] = [
+import { IUser } from '../models/users/user.interface';
+const users: Array<IUser> = [
     {
         id: '56202344-60f3-482c-88d1-deb27976a3c1',
         login: 'Burger',
