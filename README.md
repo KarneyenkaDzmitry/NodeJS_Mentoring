@@ -39,17 +39,17 @@
 
 ### Service API (PATH=/api/v1)
 
-| VERB   | Route | Description                                                     |
-|--------|-------|-----------------------------------------------------------------|
-| GET    | / | Return message: "Hello World!"             |
+| VERB | Route | Description                    |
+|------|-------|--------------------------------|
+| GET  | /     | Return message: "Hello World!" |
 
 #### User API (PATH=/user)
 
 | VERB   | Route | Description                                                     |
 |--------|-------|-----------------------------------------------------------------|
+| POST   | /     | Create User                                                     |
 | GET    | /list | Get list of all users (or filter by query params)               |
 | GET    | /:id  | Get User by ID                                                  |
-| POST   | /     | Create User                                                     |
 | PUT    | /:id  | Update user by parameter ID                                     |
 | DELETE | /:id  | Delete user by parameter ID (use query params to soft deletion) |
 
