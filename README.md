@@ -35,7 +35,25 @@
 | task2:no_stream | `nodemon --config ./nodemon.dev.json ./src/utils/csv.serve.no_stream.ts` | Run the solution for Task 2 with usage regular usage of readFile and appendFile functions         |
 | task3.1:babel   | `nodemon ./lib/utils/string.reverse.js`                                  | Run the solution for Task 3.1                                                                     |
 | task3.2:babel   | `nodemon ./lib/utils/csv.serve.stream.js`                                | Run the solution for Task 3.2                                                                     |
-| start:dev       | `nodemon ./index.ts`                                                     | Run the solution for the Module_2: ExpessJS server                                                |
+| start:dev       | `nodemon ./src/index.ts`                                                     | Run the solution for the Module_2: ExpessJS server                                                |
+
+### Service API (PATH=/api/v1)
+
+| VERB   | Route | Description                                                     |
+|--------|-------|-----------------------------------------------------------------|
+| GET    | / | Return message: "Hello World!"             |
+
+#### User API (PATH=/user)
+
+| VERB   | Route | Description                                                     |
+|--------|-------|-----------------------------------------------------------------|
+| GET    | /list | Get list of all users (or filter by query params)               |
+| GET    | /:id  | Get User by ID                                                  |
+| POST   | /     | Create User                                                     |
+| PUT    | /:id  | Update user by parameter ID                                     |
+| DELETE | /:id  | Delete user by parameter ID (use query params to soft deletion) |
+
+N.B. More details in Swagger (OpenAPI) file will be added later.
 
 ## Task Completion
 
