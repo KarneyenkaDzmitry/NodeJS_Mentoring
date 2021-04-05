@@ -1,9 +1,9 @@
-import { Interface, createInterface } from 'readline';
+import { Interface, createInterface } from "readline";
 
 const liner: Interface = createInterface({
-    input: process.stdin
+    input: process.stdin,
 });
 
-liner.on('line', (line: string) => {
+liner.on("line", (line: string) => {
     console.log([...line].reverse().join());
-})
+});

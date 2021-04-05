@@ -1,27 +1,30 @@
-import { IUser, IBaseUser } from './user.interface';
-import * as uuid from 'uuid';
-import { IUsers } from './users.interface';
+import { IUser, IBaseUser } from "./user.interface";
+import * as uuid from "uuid";
+import { IUsers } from "./users.interface";
 
 export class UsersDB implements IUsers {
+    constructor(private readonly users: IUser[]) {}
 
-    constructor(private readonly users: IUser[]) { }
-
-    private sortBDByLogin(): Array<IUser> {
-        return this.users.sort(({ login: lb }, { login: la }) => la > lb ? -1 : la < lb ? 1 : 0);
+    private sortBDByLogin(left: IUser, right: IUser): number {
+        return right.login > left.login ? -1 : right.login < left.login ? 1 : 0;
     }
 
-    public findAll(): Promise<IUser[]> { return Promise.resolve(this.users) };
+    public findAll(): Promise<IUser[]> {
+        return Promise.resolve(this.users);
+    }
 
-    public find(id: string): Promise<IUser | undefined> { return Promise.resolve(this.users.find(user => user.id === id)) };
+    public find(id: string): Promise<IUser | undefined> {
+        return Promise.resolve(this.users.find((user) => user.id === id));
+    }
 
     public async getAutoSuggestUsers(loginSubstring: string, limit: number): Promise<IUser[]> {
         let result: IUser[] = [];
-        this.sortBDByLogin();
+        this.users.sort(this.sortBDByLogin);
         result = this.users;
-        if ((loginSubstring) && loginSubstring.length > 0) {
-            result = result.filter(({ login }) => login.includes(loginSubstring))
+        if (loginSubstring && loginSubstring.length > 0) {
+            result = result.filter(({ login }) => login.includes(loginSubstring));
         }
-        if (limit as number > 0) {
+        if (limit > 0) {
             result = await this.splitOnChunks(result, limit);
         }
         return Promise.resolve(result);
@@ -32,37 +35,35 @@ export class UsersDB implements IUsers {
             return Promise.resolve(users);
         } else {
             const chunk: IUser[] = users.slice(0, limit);
-            return Promise.resolve(chunk)
+            return Promise.resolve(chunk);
         }
     }
 
     public async create(baseUser: IBaseUser): Promise<string> {
         if ("login" in baseUser && "password" in baseUser && "isDeleted" in baseUser && "age" in baseUser) {
-            const userBD = await this.users.find(user => user.login === baseUser.login);
-            if (userBD) throw new Error(`User with Login [${baseUser.login}] already exists!`)
-            const user: IUser = { ...baseUser, id: uuid.v4() }
+            const userBD = await this.users.find((_user) => _user.login === baseUser.login);
+            if (userBD) throw new Error(`User with Login [${baseUser.login}] already exists!`);
+            const user: IUser = { ...baseUser, id: uuid.v4() };
             this.users.push(user);
             return Promise.resolve(user.id);
         } else {
             throw new Error("The object does not fulfill the expectations");
         }
-    };
+    }
 
     public async update(user: IUser): Promise<IUser> {
-
         if (!uuid.validate(user.id)) throw new Error(`Invalid ID: [${user.id}]`);
 
-        let userDB: IUser | undefined = await this.find(user.id);
+        const userDB: IUser | undefined = await this.find(user.id);
 
         if (!userDB) throw new Error("User does not exist! ");
 
         if ("login" in user && "password" in user && "isDeleted" in user && "age" in user && "id" in user) {
-
-            const index: number = this.users.findIndex(usr => usr.id === user.id);
+            const index: number = this.users.findIndex((usr) => usr.id === user.id);
             console.debug("Index: [%s]", index);
             if (index < 0) throw new Error("User Not found in DB");
             const removed = this.users.splice(index, 1, user);
-            console.debug('Removed: [%o]', removed[0]);
+            console.debug("Removed: [%o]", removed[0]);
             console.debug(await this.find(user.id));
             return Promise.resolve(user);
         } else {
@@ -73,23 +74,22 @@ export class UsersDB implements IUsers {
     public async delete(id: string, soft: string | undefined): Promise<IUser> {
         if (!uuid.validate(id)) throw new Error(`Invalid ID: [${id}]`);
 
-        let userDB: IUser | undefined = await this.find(id);
+        const userDB: IUser | undefined = await this.find(id);
 
         if (!userDB) throw new Error("User does not exist! ");
 
-        const index: number = this.users.findIndex(user => user.id === id);
+        const index: number = this.users.findIndex((user) => user.id === id);
 
         if (index < 0) throw new Error("User Not found in DB");
 
-        if (soft === 'true') {
-
+        if (soft === "true") {
             this.users[index].isDeleted = true;
 
             console.debug(this.users[index]);
             return Promise.resolve(this.users[index]);
         } else {
             const removed = this.users.splice(index, 1);
-            console.debug('Removed: [%o]', removed[0]);
+            console.debug("Removed: [%o]", removed[0]);
             return Promise.resolve(removed[0]);
         }
     }

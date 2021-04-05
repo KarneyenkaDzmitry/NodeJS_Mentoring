@@ -1,12 +1,12 @@
 export interface UserSearchMetadata {
     meta: {
-        chunk: number,
+        chunk: number;
         total: {
-            chunks: number,
-            matches: number
-        },
+            chunks: number;
+            matches: number;
+        };
         searchQuery: {
-            loginSubstring: string
-        }
-    }
+            loginSubstring: string;
+        };
+    };
 }

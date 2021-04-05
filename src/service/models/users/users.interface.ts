@@ -1,4 +1,4 @@
-import { IBaseUser, IUser } from './user.interface';
+import { IBaseUser, IUser } from "./user.interface";
 
 export interface IUsers {
     findAll(): Promise<IUser[]>;

@@ -15,7 +15,7 @@ async function main() {
     list.forEach(async (filename: string) => {
         try {
             const filepathR = join(CSV_WORK_DIR, filename);
-            const filepathD = join(CSV_DEST_DIR, basename(filename) + '.txt');
+            const filepathD = join(CSV_DEST_DIR, basename(filename) + ".txt");
             const readStream = createReadStream(filepathR);
             const writeStream = createWriteStream(filepathD);
             const csv = csvtojson({ output: "json", noheader: false });
