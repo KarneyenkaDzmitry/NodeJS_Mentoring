@@ -8,7 +8,7 @@ const CSV_DEST_DIR = process.env.CSV_DEST_DIR || join(resolve("."), "temp", "csv
 console.debug(`Working Directory:\t[${CSV_WORK_DIR}]`);
 console.debug(`Target Directory:\t[${CSV_DEST_DIR}]`);
 
-async function main() {
+async function main(): Promise<void> {
     await validatePath(CSV_WORK_DIR);
     await validatePath(CSV_DEST_DIR);
     const list = await getListCSVFiles(CSV_WORK_DIR);
@@ -34,7 +34,7 @@ async function main() {
     });
 }
 
-async function getListCSVFiles(path: string): Promise<any> {
+async function getListCSVFiles(path: string): Promise<string[]> {
     try {
         let names = await readdir(path);
         names = names.filter((name: string) => name.endsWith("csv"));

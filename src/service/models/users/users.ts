@@ -6,7 +6,15 @@ export class UsersDB implements IUsers {
     constructor(private readonly users: IUser[]) {}
 
     private sortBDByLogin(left: IUser, right: IUser): number {
-        return right.login > left.login ? -1 : right.login < left.login ? 1 : 0;
+        if (right.login > left.login) {
+            return -1;
+        } else {
+            if (right.login < left.login) {
+                return 1;
+            } else {
+                return 0;
+            }
+        }
     }
 
     public findAll(): Promise<IUser[]> {

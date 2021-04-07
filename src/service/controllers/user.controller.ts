@@ -14,8 +14,8 @@ export const getUserById = async (req: Request, res: Response): Promise<void> =>
 };
 
 export const getUsers = async (req: Request, res: Response): Promise<void> => {
-    const limit: any = req.query.limit;
-    const loginSubstring: any = req.query.loginSubstring;
+    const limit: unknown = req.query.limit;
+    const loginSubstring: unknown = req.query.loginSubstring;
     try {
         const users: IUser[] = await usersDB.getAutoSuggestUsers(loginSubstring as string, limit as number);
         res.status(200).json(users);
