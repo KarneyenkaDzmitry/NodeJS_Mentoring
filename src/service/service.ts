@@ -1,6 +1,6 @@
 import express from "express";
-import * as userRouter from "./routes/user.route";
-import * as greetingRouter from "./routes/greeting.route";
+import * as userRouter from "../api/routes/user.route";
+import * as greetingRouter from "../api/routes/greeting.route";
 
 const service = express();
 service.use(express.json());

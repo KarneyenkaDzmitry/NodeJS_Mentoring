@@ -1,4 +1,5 @@
 .husky
+.scannerwork
 .vscode
 .idea
 node_modules

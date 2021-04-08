@@ -1,8 +1,8 @@
 import { Router } from "express";
 import { validatePrams, validateBody } from "../controllers/validation.controller";
 import * as controller from "../controllers/user.controller";
-import { userUUIDSchema } from "../../schemas/user.uuid.schema";
-import { userSchema } from "../../schemas/user.schema";
+import { userUUIDSchema } from "../schemas/user.uuid.schema";
+import { userSchema } from "../schemas/user.schema";
 
 const router = Router();
 

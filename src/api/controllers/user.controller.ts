@@ -1,7 +1,7 @@
-import { usersDB } from "../db/used.db.trial";
+import { usersDB } from "../../service/db/used.db.trial";
 import { Request, Response } from "express";
-import { IBaseUser, IUser } from "../models/users/user.interface";
-import { userSchema } from "../../schemas/user.schema";
+import { IBaseUser, IUser } from "../../models/users/user.interface";
+import { userSchema } from "../schemas/user.schema";
 
 export const getUserById = async (req: Request, res: Response): Promise<void> => {
     const id: string = req.params.id;
