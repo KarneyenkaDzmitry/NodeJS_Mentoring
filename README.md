@@ -57,6 +57,43 @@ N.B. More details in Swagger (OpenAPI) file will be added later.
 
 ## Task Completion
 
+### Module-3: PostgreSQL and layered architecture
+
+#### Project structure example from a lecture (based on the Layered architecture approach)
+
+```bash
+   src                          - store source files of the project
+    ├── app.js                  - The application entry point
+    ├── api/                    - Express route controllers for all the endpoints of the application
+    ├── config/                 - Environment variables and configuration related stuff
+    ├── loaders/                - Split the startup process into modules
+    ├── models/                 - Database models
+    ├── services/               - All the business logic here
+    ├── subscribes/             - Event handlers for async tasks
+    ├── types/                  - Type declaration files (d.ts) for TypeScript
+```
+
+**Task 1:**
+
+- Install DB PostgreSQL on your machine or use a free web hosting services for PostgreSQL ([Heroku](https://www.heroku.com/postgresor) [ElephantSQL](https://www.elephantsql.com/plans.html)).
+- Write> SQL script which will create Users table in the DB and fill it in with predefined users’ collection.
+- Configure your REST service to work with PostgreSQL.
+- Use the sequelize package [SequelizeJS](http://docs.sequelizejs.com/) as ORM to work with PostgreSQL.
+- As an alternative to sequelize you can use more low-level query-builder library [KnexJS](<http://knexjs.org/>).
+
+**Task 2:**
+
+- The service should adhere to 3-layer architecture principles [Ideal NodeJS Project Structure](https://softwareontheroad.com/ideal-nodejs-project-structure/) and contain the following set of directories:
+
+```bash
+    ...
+    ├── routers/controllers
+    ├── services/
+    ├── data-access/
+    ├── models/
+    ...
+```
+
 ### Module-2: In-memory CRUD REST service with validation
 
 1. Write a simple REST service with CRUD operations for User entity.
