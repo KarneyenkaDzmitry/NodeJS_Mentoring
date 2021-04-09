@@ -1,11 +1,30 @@
 import { Model, DataTypes } from "sequelize";
-import { IUser } from "../../models/interfaces/user.interface";
+import { TBaseUser, TUser } from "../../types/base.user.type";
 import { sequelize } from "../sequelize";
 
 class User extends Model {
-    //Here could be implemented static and not static methods to manipulate with data of the Object
-    public static find(id: string): Promise<User | null> {
+    public static findUser(id: string): Promise<User | null> {
         return this.findOne({ where: { id } });
+    }
+
+    public static findUsers(): Promise<User[]> {
+        return this.findAll();
+    }
+
+    public static async getAutoSuggestUsers(loginSubstring: string, limit: number): Promise<User[]> {
+        return this.getAutoSuggestUsers(loginSubstring, limit);
+    }
+
+    public static async createUser(user: TBaseUser): Promise<[User, boolean]> {
+        return this.findOrCreate({ where: { login: user.login }, defaults: { ...user } });
+    }
+
+    public static async updateUser(user: TUser): Promise<[number, User[]]> {
+        return this.update({ ...user }, { where: { id: user.id, login: user.login }, returning: true });
+    }
+
+    public static async deleteUser(id: string): Promise<number> {
+        return this.destroy({ where: { id } });
     }
 }
 
@@ -45,9 +64,11 @@ User.init(
     },
     {
         sequelize,
-        // tableName: "users",
-        modelName: "user",
+        tableName: "users",
+        modelName: "usr",
         timestamps: false,
+        paranoid: true,
+        deletedAt: "isDeleted",
     },
 );
 
