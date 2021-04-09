@@ -1,11 +1,13 @@
 import { usersDB } from "../../services/db/used.db.trial";
 import { Request, Response } from "express";
-import { IBaseUser, IUser } from "../../models/users/user.interface";
+import { IBaseUser, IUser } from "../../models/interfaces/user.interface";
 import { userSchema } from "../schemas/user.schema";
+import { User } from "../../data-access/orm/users";
 
 export const getUserById = async (req: Request, res: Response): Promise<void> => {
     const id: string = req.params.id;
-    const user: IUser | undefined = await usersDB.find(id);
+    // const user: IUser | undefined = await usersDB.find(id);
+    const user: User | null = await User.find(id);
     if (user) {
         res.status(200).json(user);
     } else {

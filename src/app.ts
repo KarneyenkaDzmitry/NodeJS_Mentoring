@@ -1,9 +1,9 @@
 import express from "express";
-import config from "./config";
+import { configs } from "./config";
 import { initialization } from "./loaders";
 
 const launchServer = (): void => {
-    const port: number = config.service.port;
+    const port: number = configs.service.port;
     const service = express();
 
     initialization({ service });

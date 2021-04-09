@@ -1,5 +1,5 @@
 import { UsersDB } from "./users";
-import { IUser } from "../../models/users/user.interface";
+import { IUser } from "../../models/interfaces/user.interface";
 import { db } from "./db";
 const users: IUser[] = db;
 

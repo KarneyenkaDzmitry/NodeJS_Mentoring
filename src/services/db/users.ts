@@ -1,6 +1,6 @@
-import { IUser, IBaseUser } from "../../models/users/user.interface";
+import { IUser, IBaseUser } from "../../models/interfaces/user.interface";
 import * as uuid from "uuid";
-import { IUsers } from "../../models/users/users.interface";
+import { IUsers } from "../../models/interfaces/users.interface";
 
 export class UsersDB implements IUsers {
     constructor(private readonly users: IUser[]) {}
