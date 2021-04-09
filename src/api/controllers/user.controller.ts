@@ -1,4 +1,4 @@
-import { usersDB } from "../../service/db/used.db.trial";
+import { usersDB } from "../../services/db/used.db.trial";
 import { Request, Response } from "express";
 import { IBaseUser, IUser } from "../../models/users/user.interface";
 import { userSchema } from "../schemas/user.schema";

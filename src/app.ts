@@ -1,9 +1,20 @@
-import { service } from "./service/service";
-import * as dotenv from "dotenv";
-dotenv.config();
+import express from "express";
+import config from "./config";
+import { initialization } from "./loaders";
 
-const port: number = parseInt(process.env.SERVICE_PORT as string, 10) || 3000;
+const launchServer = (): void => {
+    const port: number = config.service.port;
+    const service = express();
 
-service.listen(port, () => {
-    console.log(`The application is listening at http://localhost:${port}`);
-});
+    initialization({ service });
+
+    service.listen(port, () => {
+        console.info(`
+################################################
+🛡️  Server listening on port: | ${port} | 🛡️
+################################################
+      `);
+    });
+};
+
+launchServer();
