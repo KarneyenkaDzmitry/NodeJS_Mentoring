@@ -1,4 +1,4 @@
-import { Model, DataTypes } from "sequelize";
+import { Model, DataTypes, Op } from "sequelize";
 import { TBaseUser, TUser } from "../../types/base.user.type";
 import { sequelize } from "../sequelize";
 
@@ -7,13 +7,21 @@ class User extends Model {
         return this.findOne({ where: { id } });
     }
 
-    public static findUsers(): Promise<User[]> {
-        return this.findAll();
+    public static findUsers(limit: number): Promise<User[]> {
+        return this.findAll(limit > 0 ? { limit } : {});
     }
 
-    public static async getAutoSuggestUsers(loginSubstring: string, limit: number): Promise<User[]> {
-        return this.getAutoSuggestUsers(loginSubstring, limit);
+    public static getAutoSuggestUsers(loginSubstring: string, limit: number): Promise<User[]> {
+        return this.findAll({
+            limit,
+            where: {
+                login: {
+                    [Op.like]: `%${loginSubstring}%`,
+                },
+            },
+        });
     }
+    // return this.getAutoSuggestUsers(loginSubstring, limit);
 
     public static async createUser(user: TBaseUser): Promise<[User, boolean]> {
         return this.findOrCreate({ where: { login: user.login }, defaults: { ...user } });
@@ -23,8 +31,12 @@ class User extends Model {
         return this.update({ ...user }, { where: { id: user.id, login: user.login }, returning: true });
     }
 
-    public static async deleteUser(id: string): Promise<number> {
-        return this.destroy({ where: { id } });
+    public static async deleteUser(id: string, soft: boolean): Promise<[number, User[]]> {
+        if (soft) {
+            return Promise.resolve([await this.destroy({ where: { id } }), []]);
+        } else {
+            return this.update({ isDeleted: true }, { where: { id }, returning: true });
+        }
     }
 }
 

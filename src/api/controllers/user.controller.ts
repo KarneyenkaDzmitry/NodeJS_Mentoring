@@ -14,16 +14,15 @@ export const getUserById = async (req: Request, res: Response): Promise<void> =>
 };
 
 export const getUsers = async (req: Request, res: Response): Promise<void> => {
-    const limit: unknown = req.query.limit;
-    const loginSubstring: unknown = req.query.loginSubstring;
+    const limit: number = parseInt(req.query.limit as string, 10) || 0;
+    const loginSubstring: string = req.query.loginSubstring as string;
     try {
         let users: User[] | null;
-        if (loginSubstring && (loginSubstring as string).length > 0 && (limit as number) > 0) {
-            users = await User.getAutoSuggestUsers(loginSubstring as string, limit as number);
+        if (loginSubstring && loginSubstring.length > 0 && limit > 0) {
+            users = await User.getAutoSuggestUsers(loginSubstring, limit);
         } else {
-            users = await User.findUsers();
+            users = await User.findUsers(limit);
         }
-
         res.status(200).json(users);
     } catch (error) {
         console.error(error);
@@ -37,9 +36,9 @@ export const createUser = async (req: Request, res: Response): Promise<void> => 
         await userSchema.validateAsync(user);
         const [dbUser, status] = await User.createUser(user);
         if (status) {
-            res.status(200).send(dbUser);
+            res.status(200).json(dbUser);
         } else {
-            res.status(201).send(dbUser);
+            res.status(201).json(dbUser);
         }
     } catch (error) {
         console.error(error.message);
@@ -54,7 +53,7 @@ export const updateUser = async (req: Request, res: Response): Promise<void> => 
     try {
         await userSchema.validateAsync(user);
         const [, userDB] = await User.updateUser(user);
-        res.status(200).send(userDB);
+        res.status(200).json(userDB);
     } catch (error) {
         console.error(error.message);
         res.status(400).send(error.message);
@@ -62,11 +61,12 @@ export const updateUser = async (req: Request, res: Response): Promise<void> => 
 };
 
 export const deleteUser = async (req: Request, res: Response): Promise<void> => {
+    const soft: boolean = req.query.soft === "false" ? false : true;
     const id: string = req.params.id;
     try {
-        const number = await User.deleteUser(id);
+        const [number] = await User.deleteUser(id, soft);
         console.log(number);
-        res.status(200).send({ number });
+        res.status(200).json({ number });
     } catch (error) {
         console.error(error.message);
         res.status(400).send(error.message);
