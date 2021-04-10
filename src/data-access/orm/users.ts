@@ -21,7 +21,6 @@ class User extends Model {
             },
         });
     }
-    // return this.getAutoSuggestUsers(loginSubstring, limit);
 
     public static async createUser(user: TBaseUser): Promise<[User, boolean]> {
         return this.findOrCreate({ where: { login: user.login }, defaults: { ...user } });
