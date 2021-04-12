@@ -5,7 +5,7 @@ CREATE TABLE users (
     login VARCHAR NOT NULL,
     password VARCHAR NOT NULL,
     age INTEGER NOT NULL,
-    isDeleted BOOLEAN DEFAULT false
+    "isDeleted" BOOLEAN DEFAULT false
    );
 
 INSERT INTO users (login, password, age) VALUES 
