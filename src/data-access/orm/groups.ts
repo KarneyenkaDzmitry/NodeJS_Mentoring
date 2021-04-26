@@ -1,27 +1,20 @@
 import { Model, DataTypes, Op } from "sequelize";
 import { sequelize } from "../sequelize";
 import { TGroup } from "../../types/group.type";
-import { Permission } from "./permissions";
-import { Groups_Permissions } from "./groups_permissions";
 
 class Group extends Model {
     public static findGroup(id: string): Promise<Group | null> {
         return this.findOne({
             where: { id },
-            include: [
-                {
-                    model: Permission,
-                },
-            ],
         });
     }
 
     public static findGroupByName(name: string): Promise<Group | null> {
-        return this.findOne({ where: { name }, include: Permission });
+        return this.findOne({ where: { name } });
     }
 
     public static findGroups(limit: number): Promise<Group[]> {
-        return this.findAll(limit > 0 ? { limit, include: Permission } : { include: Permission });
+        return this.findAll(limit > 0 ? { limit } : {});
     }
 
     public static getAutoSuggestGroups(nameSubstring: string, limit: number): Promise<Group[]> {
@@ -36,7 +29,7 @@ class Group extends Model {
     }
 
     public static async createGroup(group: TGroup): Promise<[Group, boolean]> {
-        return this.findOrCreate({ where: { name: group.name }, include: Permission, defaults: { ...group } });
+        return this.findOrCreate({ where: { name: group.name }, defaults: { ...group } });
     }
     public static async updateGroup(group: TGroup): Promise<[number, Group[]]> {
         return this.update({ ...group }, { where: { id: group.id, name: group.name }, returning: true });
@@ -60,6 +53,18 @@ Group.init(
             validate: {
                 isAlphanumeric: true,
                 len: [3, 25],
+            },
+        },
+        permissions: {
+            type: DataTypes.ARRAY(DataTypes.STRING),
+            defaultValue: [],
+            allowNull: false,
+            validate: {
+                min: 0,
+                max: 5,
+                isValidPermission: (permissions: string[]): boolean => {
+                    return permissions.every((permission) => /^(READ|WRITE|DELETE|SHARE|UPLOAD_FILES)$/.test(permission));
+                },
             },
         },
     },

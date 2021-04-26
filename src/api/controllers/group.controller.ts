@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { groupSchema } from "../schemas/group.schema";
 import { Group } from "../../data-access/orm/groups";
 import { TGroup, TBaseGroup } from "../../types/group.type";
 
@@ -33,7 +32,6 @@ export const getGroups = async (req: Request, res: Response): Promise<void> => {
 export const createGroup = async (req: Request, res: Response): Promise<void> => {
     const group: TGroup = req.body;
     try {
-        await groupSchema.validateAsync(group);
         const [dbGroup, status] = await Group.createGroup(group);
         if (status) {
             res.status(200).json(dbGroup);
@@ -51,7 +49,6 @@ export const updateGroup = async (req: Request, res: Response): Promise<void> =>
     const { body }: { body: TBaseGroup } = req;
     const group: TGroup = { ...body, id };
     try {
-        await groupSchema.validateAsync(group);
         const [, groupDB] = await Group.updateGroup(group);
         res.status(200).json(groupDB);
     } catch (error) {

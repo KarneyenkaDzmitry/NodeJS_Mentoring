@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { IBaseUser, IUser } from "../../models/interfaces/user.interface";
-import { userSchema } from "../schemas/user.schema";
 import { User } from "../../data-access/orm/users";
 
 export const getUserById = async (req: Request, res: Response): Promise<void> => {
@@ -33,7 +32,6 @@ export const getUsers = async (req: Request, res: Response): Promise<void> => {
 export const createUser = async (req: Request, res: Response): Promise<void> => {
     const user: IBaseUser = req.body;
     try {
-        await userSchema.validateAsync(user);
         const [dbUser, status] = await User.createUser(user);
         if (status) {
             res.status(200).json(dbUser);
@@ -51,7 +49,6 @@ export const updateUser = async (req: Request, res: Response): Promise<void> => 
     const { body }: { body: IBaseUser } = req;
     const user: IUser = { ...body, id };
     try {
-        await userSchema.validateAsync(user);
         const [, userDB] = await User.updateUser(user);
         res.status(200).json(userDB);
     } catch (error) {
