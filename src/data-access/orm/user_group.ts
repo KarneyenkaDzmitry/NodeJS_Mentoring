@@ -1,10 +1,11 @@
 import { Model, DataTypes, Op, BelongsToManyOptions } from "sequelize";
+import { Transaction } from "../../types/user_group.type";
 import { sequelize } from "../sequelize";
 import { Group } from "./groups";
 import { User } from "./users";
 
 class UserGroup extends Model {
-    public static async addUsersToGroup(groupId: string, userIds: string[]): Promise<number> {
+    public static async addUsersToGroup(groupId: string, userIds: string[]): Promise<Transaction> {
         const FAILURE_RESPONSE = -1;
         const transaction = await sequelize.transaction();
         try {
@@ -12,11 +13,12 @@ class UserGroup extends Model {
                 userIds.map((userId: string) => this.create({ group_id: groupId, user_id: userId }, { transaction })),
             );
             transaction.commit();
-            return result.length;
+            return { number: result.length, message: "Succeed" };
         } catch (error) {
+            console.log(error.parent.detail);
             console.log(error);
             await transaction.rollback();
-            return FAILURE_RESPONSE;
+            return { number: FAILURE_RESPONSE, message: error.parent.detail };
         }
     }
 }
