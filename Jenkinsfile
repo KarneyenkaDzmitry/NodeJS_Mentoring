@@ -6,7 +6,8 @@ node {
         sh "printenv"
     }
     stage('SCM') {
-      sh 'git checkout module-4'
+      git 'file:///var/jenkins_home/repositories/nodejs_mentoring_program'
+      sh "git checkout $BRANCH_NAME"
       sh 'pwd'
       sh 'ls -la'
     }
