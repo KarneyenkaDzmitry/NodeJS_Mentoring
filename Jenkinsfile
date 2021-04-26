@@ -5,11 +5,10 @@ node {
         deleteDir()
     }
   stage('SonarQube analysis') {
-      sh 'echo $PATH'
     scannerHome = tool'SonarQube-Scaner'
-    withSonarQubeEnv {
+    withSonarQubeEnv('SonarQube-Server') { 
         sh "echo ${scannerHome}"
-        sh "${scannerHome}/bin/sonar-scanner"
+        sh "${scannerHome}/bin/sonar-scanner -Dproject.settings=./sonar.properties"
     }
   }
    stage('Quality Gate') {
