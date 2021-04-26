@@ -1,4 +1,4 @@
-import { Model, DataTypes, Op, BelongsToManyOptions } from "sequelize";
+import { Model, DataTypes, BelongsToManyOptions } from "sequelize";
 import { Transaction } from "../../types/user_group.type";
 import { sequelize } from "../sequelize";
 import { Group } from "./groups";
@@ -60,5 +60,4 @@ User.belongsToMany(Group, {
     onDelete: "CASCADE",
 } as BelongsToManyOptions);
 
-// UserGroup.sync();
 export { UserGroup };
