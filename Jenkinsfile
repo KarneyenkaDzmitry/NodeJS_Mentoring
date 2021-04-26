@@ -4,12 +4,6 @@ node {
     stage('CleanUp'){
         deleteDir()
     }
-  stage('SCM') {
-    git 'file:///var/jenkins_home/taf_repository'
-    sh 'git checkout feature/layers'
-    sh 'pwd'
-    sh 'ls -la'
-  }
   stage('SonarQube analysis') {
       sh 'echo $PATH'
     scannerHome = tool'SonarQube-Scaner'
