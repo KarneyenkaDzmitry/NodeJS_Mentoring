@@ -3,7 +3,12 @@ node {
     env.PATH = "${env.NODEJS_HOME}/bin:${env.PATH}"
     stage('CleanUp'){
         deleteDir()
-        sh "git checkout $GIT_BRANCH"
+        sh "printenv"
+    }
+    stage('SCM') {
+      sh 'git checkout module-4'
+      sh 'pwd'
+      sh 'ls -la'
     }
     stage('SonarQube analysis') {
       scannerHome = tool'SonarQube-Scaner'
