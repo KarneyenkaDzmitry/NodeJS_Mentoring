@@ -3,7 +3,6 @@ node {
     env.PATH = "${env.NODEJS_HOME}/bin:${env.PATH}"
     stage('CleanUp'){
         deleteDir()
-        sh "printenv"
     }
     stage('SCM') {
       git 'file:///var/jenkins_home/repositories/nodejs_mentoring_program'
@@ -14,18 +13,16 @@ node {
     stage('SonarQube analysis') {
       scannerHome = tool'SonarQube-Scaner'
       withSonarQubeEnv('SonarQube-Server') {
-          sh "ls -lA" 
-          sh "pwd"
           sh "echo ${scannerHome}"
           sh "${scannerHome}/bin/sonar-scanner -Dproject.settings=./sonar.properties"
       }
     }
    stage('Quality Gate') {
-       timeout(time: 3, unit: 'MINUTES') {
-              qg = waitForQualityGate()
-              if (qg.status != 'OK') {
-                  error "Pipeline aborted due to quality gate failure: ${qg.status}"
-              }
+       timeout(time: 10, unit: 'MINUTES') {
+          qg = waitForQualityGate()
+          if (qg.status != 'OK') {
+              error "Pipeline aborted due to quality gate failure: ${qg.status}"
+          }
        }
     }
 }
