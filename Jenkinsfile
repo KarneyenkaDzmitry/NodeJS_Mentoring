@@ -1,12 +1,14 @@
 node {
-    env.NODEJS_HOME = "${tool 'NodeJS-14'}"
+    env.NODEJS_HOME = tool 'NodeJS-14'
     env.PATH = "${env.NODEJS_HOME}/bin:${env.PATH}"
     stage('CleanUp'){
         deleteDir()
     }
   stage('SonarQube analysis') {
     scannerHome = tool'SonarQube-Scaner'
-    withSonarQubeEnv('SonarQube-Server') { 
+    withSonarQubeEnv('SonarQube-Server') {
+        sh "ls -lA" 
+        sh "pwd"
         sh "echo ${scannerHome}"
         sh "${scannerHome}/bin/sonar-scanner -Dproject.settings=./sonar.properties"
     }
