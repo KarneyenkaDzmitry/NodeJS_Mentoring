@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { Group } from "../../data-access/orm/groups";
 import { TGroup, TBaseGroup } from "../../types/group.type";
+import { UserGroup } from "../../data-access/orm/user_group";
 
 export const getGroup = async (req: Request, res: Response): Promise<void> => {
     const id: string = req.params.id;
@@ -63,6 +64,19 @@ export const deleteGroup = async (req: Request, res: Response): Promise<void> =>
         const [number] = await Group.deleteGroup(id);
         console.log(number);
         res.status(200).json({ number });
+    } catch (error) {
+        console.error(error.message);
+        res.status(400).send(error.message);
+    }
+};
+
+export const addUsersToGroup = async (req: Request, res: Response): Promise<void> => {
+    const { userIds, groupId }: { userIds: string[]; groupId: string } = req.body;
+    try {
+        const number = await UserGroup.addUsersToGroup(groupId, userIds);
+        console.log(number);
+        if (number > 0) res.status(200).json({ number });
+        else res.status(500).send("Transaction failure.");
     } catch (error) {
         console.error(error.message);
         res.status(400).send(error.message);
