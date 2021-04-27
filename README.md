@@ -45,17 +45,64 @@
 
 #### User API (PATH=/user)
 
-| VERB   | Route | Description                                                     |
-|--------|-------|-----------------------------------------------------------------|
-| POST   | /     | Create User                                                     |
-| GET    | /list | Get list of all users (or filter by query params)               |
-| GET    | /:id  | Get User by ID                                                  |
-| PUT    | /:id  | Update user by parameter ID                                     |
-| DELETE | /:id  | Delete user by parameter ID (use query params to soft deletion) |
+| VERB       | Route | Description                                                     |
+|------------|-------|-----------------------------------------------------------------|
+| **POST**   | /     | Create User                                                     |
+| **GET**    | /list | Get list of all users (or filter by query params)               |
+| **GET**    | /:id  | Get User by ID                                                  |
+| **PUT**    | /:id  | Update user by parameter ID                                     |
+| **DELETE** | /:id  | Delete user by parameter ID (use query params to soft deletion) |
+
+#### User API (PATH=/group)
+
+| VERB       | Route | Description                                                    |
+|------------|-------|----------------------------------------------------------------|
+| **POST**   | /     | Create a Group                                                 |
+| **GET**    | /list | Get list of all groups (or filter by query params)             |
+| **GET**    | /:id  | Get Group by ID                                                |
+| **PUT**    | /:id  | Update a group by parameter ID                                 |
+| **DELETE** | /:id  | Delete group by parameter ID (only hard deletion is supported) |
+| **POST**   | /user | Add a user to groups                                           |
 
 N.B. More details in Swagger (OpenAPI) file will be added later.
 
 ## Task Completion
+
+### Module-4: SECOND ENTITY AND MANY-TO-MANY ENTITY RELATIONSHIPS
+
+**Task 1:**
+
+- Add Group entity to already existing REST service with CRUD operations;
+- TheGroup entity should have the following properties (you can use UUID as Group id):
+
+```typescript
+export type TPermission = "READ" | "WRITE" | "DELETE" | "SHARE" | "UPLOAD_FILES";
+
+export type TGroup = {
+    id: string;
+    name: string;
+    permissions: TPermission[];
+};
+```
+
+- The service should provide the following CRUD operations for Group:
+  - Get group by id;
+  - Get all groups;
+  - Create and update a group;
+  - Remove group (hard delete–group data is fully removed from the DB);
+- Storing of groups data should be done in PostgreSQLinGroups table;
+- The service should follow the principles of 3-layer architecture.
+
+**Task 2:**
+
+- Link User records in one table with Group records in another table.
+- Add a UserGroup table ("many-to-many" relationship) which will store the data describing which users are assigned to which group.
+- If any record gets removed from the DB, then all linked records should be removed from UserGroup as well.
+
+**Task 2:**
+
+- Add addUsersToGroup(groupId, userIds) method which will allow adding users to a certain group.
+- Use transactions to save records in DB.
 
 ### Module-3: PostgreSQL and layered architecture
 
