@@ -43,7 +43,7 @@
 |------|-------|--------------------------------|
 | GET  | /     | Return message: "Hello World!" |
 
-#### User API (PATH=/user)
+#### User API (PATH=/api/v1/user)
 
 | VERB       | Route | Description                                                     |
 |------------|-------|-----------------------------------------------------------------|
@@ -53,7 +53,7 @@
 | **PUT**    | /:id  | Update user by parameter ID                                     |
 | **DELETE** | /:id  | Delete user by parameter ID (use query params to soft deletion) |
 
-#### User API (PATH=/group)
+#### User API (PATH=/api/v1/group)
 
 | VERB       | Route | Description                                                    |
 |------------|-------|----------------------------------------------------------------|
