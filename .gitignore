@@ -2,6 +2,7 @@
 .scannerwork
 .vscode
 .idea
+logs
 node_modules
 build
 lib
