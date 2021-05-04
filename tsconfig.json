@@ -15,6 +15,18 @@
     "rootDir": "./src",
     "downlevelIteration": true,
     "strict": true,
-    "forceConsistentCasingInFileNames": true
-  }
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "typeRoots": [
+      "src/types",
+    ]
+  },
+  "include": [
+    "./test/**/*.ts",
+    "./src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "temp"
+  ]
 }
