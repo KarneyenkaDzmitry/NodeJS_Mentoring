@@ -68,6 +68,26 @@ N.B. More details in Swagger (OpenAPI) file will be added later.
 
 ## Task Completion
 
+### Module-5: LOGGING & ERROR HANDLING
+
+**Task 1:**
+
+- Add express middleware which will log which service method has been invoked and which arguments have been passed to it.
+
+**Task 2:**
+
+- Add express middleware which will log all unhandled errors and return a standard message with HTTP code 500(Internal Server Error).
+**Remark:** Do not modify the status code and the message for other errors like validation errors from the previous task.
+- Add error handling to process.on ("uncaughtException",...).
+- Add Unhandled promise rejection listener to log errors.
+
+**Task 3:**
+
+- Every method in the controllers should log the errors which should include the following information:
+  - method name;
+  - arguments which have been passed to the method;
+  - error message.
+
 ### Module-4: SECOND ENTITY AND MANY-TO-MANY ENTITY RELATIONSHIPS
 
 **Task 1:**
@@ -99,7 +119,7 @@ export type TGroup = {
 - Add a UserGroup table ("many-to-many" relationship) which will store the data describing which users are assigned to which group.
 - If any record gets removed from the DB, then all linked records should be removed from UserGroup as well.
 
-**Task 2:**
+**Task 3:**
 
 - Add addUsersToGroup(groupId, userIds) method which will allow adding users to a certain group.
 - Use transactions to save records in DB.
