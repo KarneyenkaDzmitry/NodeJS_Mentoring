@@ -27,7 +27,7 @@ class User extends Model {
     }
 
     public static async updateUser(user: TUser): Promise<[number, User[]]> {
-        return this.update({ ...user }, { where: { id: user.id, login: user.login }, returning: true });
+        return this.update({ ...user }, { where: { id: user.id }, returning: true });
     }
 
     public static async deleteUser(id: string, soft: boolean): Promise<[number, User[]]> {
