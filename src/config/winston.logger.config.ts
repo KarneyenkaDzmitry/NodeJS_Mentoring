@@ -12,8 +12,8 @@ declare type TInfo = {
     error: ServiceError;
 };
 
-const myFormat = printf(({ level, timestamp, label, code, name }): string => {
-    return `${timestamp} [${level.padEnd(5, " ")}] [${label}]: ${name} ${code}`;
+const myFormat = printf(({ level, timestamp, label, code, name, message }): string => {
+    return `${timestamp} [${level.padEnd(5, " ")}] [${label}]: ${message ? message : `${name ?? ""} ${code ?? ""}`} `;
 });
 
 const console = new winston.transports.Console({

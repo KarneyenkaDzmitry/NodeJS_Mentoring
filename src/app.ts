@@ -3,6 +3,7 @@ import { configs } from "./config";
 import { initialization } from "./loaders";
 import { getServiceLogger } from "./config/winston.logger.config";
 const logger = getServiceLogger("Server");
+import { subscribeToErrors } from "./subscribes/process";
 
 const launchServer = async (): Promise<void> => {
     const port: number = configs.service.port;
@@ -11,28 +12,14 @@ const launchServer = async (): Promise<void> => {
     await initialization({ service });
 
     const application = service.listen(port, () => {
-        console.info(`
+        logger.info(`
     ################################################
     🛡️  Server listening on port: | ${port} | 🛡️
     ################################################
           `);
     });
 
-    process.on("uncaughtException", (error) => {
-        logger.info("Throw Error Service!");
-        application.close((error) => {
-            logger.info("Application closed carefully!");
-        });
-        process.exit(1);
-    });
-
-    process.on("unhandledRejection", (error) => {
-        logger.info("Throw Error Service!");
-        application.close((error) => {
-            logger.info("Application closed carefully!");
-        });
-        process.exit(1);
-    });
+    subscribeToErrors(application);
 };
 
 launchServer();

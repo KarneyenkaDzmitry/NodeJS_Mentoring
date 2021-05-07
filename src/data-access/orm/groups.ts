@@ -32,7 +32,7 @@ class Group extends Model {
         return this.findOrCreate({ where: { name: group.name }, defaults: { ...group } });
     }
     public static async updateGroup(group: TGroup): Promise<[number, Group[]]> {
-        return this.update({ ...group }, { where: { id: group.id, name: group.name }, returning: true });
+        return this.update({ ...group }, { where: { id: group.id }, returning: true });
     }
     public static async deleteGroup(id: string): Promise<[number, Group[]]> {
         return Promise.resolve([await this.destroy({ where: { id } }), []]);
