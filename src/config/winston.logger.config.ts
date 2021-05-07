@@ -1,25 +1,15 @@
-import * as winston from "winston";
+import winston, { Logger, format } from "winston";
 import * as express_winston from "express-winston";
 import DailyRotateFile from "winston-daily-rotate-file";
-import { Logger, format } from "winston";
-const { printf, combine, label, timestamp, prettyPrint } = format;
-import { ServiceError } from "../models/errors/error.models";
 
-declare type TInfo = {
-    level: string;
-    timestamp: string;
-    label: string;
-    error: ServiceError;
-};
-
-const myFormat = printf(({ level, timestamp, label, code, name, message }): string => {
+const myFormat = format.printf(({ level, timestamp, label, code, name, message }): string => {
     return `${timestamp} [${level.padEnd(5, " ")}] [${label}]: ${message ? message : `${name ?? ""} ${code ?? ""}`} `;
 });
 
 const console = new winston.transports.Console({
-    format: combine(
-        label({ label: "HTTP-SERVER" }),
-        timestamp({
+    format: format.combine(
+        format.label({ label: "HTTP-SERVER" }),
+        format.timestamp({
             format: "HH:mm:ss",
         }),
         myFormat,

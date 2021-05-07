@@ -60,7 +60,7 @@ export const updateUser = async (req: Request, res: Response, next: NextFunction
     const { body }: { body: IBaseUser } = req;
     const user: IUser = { ...body, id };
     try {
-        const [number, userDB] = await User.updateUser(user);
+        const [number] = await User.updateUser(user);
         if (number === 0) {
             throw new BadRequestError({
                 message: `User with id [${id}] has not been updated.`,

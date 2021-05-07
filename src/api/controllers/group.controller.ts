@@ -62,7 +62,7 @@ export const updateGroup = async (req: Request, res: Response, next: NextFunctio
     const { body }: { body: TBaseGroup } = req;
     const group: TGroup = { ...body, id };
     try {
-        const [number, groupDB] = await Group.updateGroup(group);
+        const [number] = await Group.updateGroup(group);
         if (number === 0) {
             throw new BadRequestError({
                 message: `User with id [${id}] does not exist!`,
