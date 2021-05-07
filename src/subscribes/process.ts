@@ -15,12 +15,12 @@ const closeApplication = (application: Server, sequelizer: Sequelize): void => {
 
 export const subscribeToErrors = (application: Server): void => {
     process.on("uncaughtException", (error) => {
-        logger.error(error);
+        logger.error(error.toString());
         closeApplication(application, sequelize);
     });
 
     process.on("unhandledRejection", (error) => {
-        logger.error(error);
+        logger.error(error?.toString());
         closeApplication(application, sequelize);
     });
 };
