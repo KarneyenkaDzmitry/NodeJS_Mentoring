@@ -37,6 +37,10 @@ class User extends Model {
             return this.update({ isDeleted: true }, { where: { id }, returning: true });
         }
     }
+
+    public static findUserByCreeds(login: string, password: string): Promise<User | null> {
+        return this.findOne({ where: { login, password } });
+    }
 }
 
 User.init(

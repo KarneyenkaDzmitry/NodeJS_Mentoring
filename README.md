@@ -39,6 +39,8 @@
 
 ### Service API (PATH=/api/v1)
 
+[x-access-token] all endpoints required, except **/api/v1/login** and **/**
+
 | VERB | Route | Description                    |
 |------|-------|--------------------------------|
 | GET  | /     | Return message: "Hello World!" |
@@ -64,9 +66,29 @@
 | **DELETE** | /:id  | Delete group by parameter ID (only hard deletion is supported) |
 | **POST**   | /user | Add a user to groups                                           |
 
+#### User API (PATH=/api/v1/login)
+
+| VERB     | Route | Description                                              |
+|----------|-------|----------------------------------------------------------|
+| **POST** | /     | Create provide token based on sent username and password |
+
 N.B. More details in Swagger (OpenAPI) file will be added later.
 
 ## Task Completion
+
+### Module-6: JWT AUTHORIZATION AND CORS
+
+**Task 1:**
+
+- Add authorization to the already existing REST service.
+- Add login(username, password)method which should return JWT token.
+- Add a middleware which will proxy all the requests (except login) and check that HTTP Authorization header has the correct value of JWT token.
+- In case of the HTTP Authorization header is absent in the request, the middleware should stop further controller method execution and return HTTP 401 code (Unauthorized Error) and standard error message.
+- In case of HTTPAuthorization header has invalid JWT token in the request, the middleware should return HTTP code 403 (Forbidden Error) and standard error message.
+
+**Task 2:**
+
+-Add CORS middleware to access service methods from WEB applications hosted on another domains [Express Cors middleware](https://github.com/expressjs/cors).
 
 ### Module-5: LOGGING & ERROR HANDLING
 

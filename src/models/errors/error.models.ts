@@ -47,6 +47,14 @@ export class NotFoundError extends ServiceError {
     }
 }
 
+export class BadCredentialsError extends ServiceError {
+    code = "ERR_UNKNOWN_CREDENTIAL";
+
+    constructor(args: THttpError) {
+        super({ ...args, status: 403 });
+    }
+}
+
 export class BadRequestError extends ServiceError {
     code = "ERR_BAD_REQUEST_ERROR";
 
@@ -60,5 +68,13 @@ export class TransactionError extends ServiceError {
 
     constructor(args: THttpError) {
         super({ ...args, status: 405 });
+    }
+}
+
+export class UnauthorizedError extends ServiceError {
+    code = "ERR_CRYPTO_INVALID_JWK";
+
+    constructor(args: THttpError) {
+        super({ ...args, status: 401 });
     }
 }
