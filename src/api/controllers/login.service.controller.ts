@@ -8,7 +8,7 @@ export const login = async (req: Request, res: Response, next: NextFunction): Pr
     const credentials: TLogin = req.body;
     try {
         const token = await LoginService.authenticate(credentials);
-        res.send(token);
+        res.send({ token });
     } catch (error) {
         next(error);
     }
