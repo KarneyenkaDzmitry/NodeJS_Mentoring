@@ -74,6 +74,21 @@
 
 N.B. More details in Swagger (OpenAPI) file will be added later.
 
+## Environment variables
+
+|                         | Default value | Description                                                                                              |
+|-------------------------|---------------|----------------------------------------------------------------------------------------------------------|
+| **SERVICE_ENV**         | dev           | Environment on each service is run                                                                       |
+| **JWT_SECRET**          | unspecified   | JsonWebToken secret text to generate token                                                               |
+| **JWT_EXPIRATION_TERM** | 600           | Time term for the token                                                                                  |
+| **JWT_PRIVATE_KEY**     | unspecified   | Unsupported currently. However it is allocated for the future implementation to store path to secret key |
+| **DB_USER**             | unspecified   | Database username                                                                                        |
+| **DB_PASSWORD**         | unspecified   | Database password                                                                                        |
+| **DB_NAME**             | unspecified   | Database name                                                                                            |
+| **DB_HOST**             | unspecified   | Database hostname                                                                                        |
+| **DB_PORT**             | unspecified   | Database port number                                                                                     |
+| **KABOOM**              | unspecified   | Time term in ms when unexpected Error will throw any where in code to check safe exit from service       |
+
 ## Task Completion
 
 ### Module-6: JWT AUTHORIZATION AND CORS
