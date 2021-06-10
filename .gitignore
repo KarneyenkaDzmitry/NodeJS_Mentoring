@@ -6,6 +6,7 @@ logs
 node_modules
 build
 lib
+coverage
 tsconfig.json
 *.env
 *env

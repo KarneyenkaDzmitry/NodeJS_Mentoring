@@ -1,8 +1,8 @@
 export const mockUsers = [
     {
-        id: "56202344-60f3-482c-88d1-deb27976a3c1",
-        login: "Burger",
-        password: "1q2w3e",
+        id: "56202344-60f9-482c-88d1-deb27976a3c1",
+        login: "Burger896",
+        password: "1q2w3e7412",
         age: 59,
         isDeleted: false,
     },
