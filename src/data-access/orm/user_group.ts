@@ -14,9 +14,7 @@ class UserGroup extends Model {
             );
             transaction.commit();
             return { number: result.length, message: "Succeed" };
-        } catch (error) {
-            console.log(error.parent.detail);
-            console.log(error);
+        } catch (error: any) {
             await transaction.rollback();
             return { number: FAILURE_RESPONSE, message: error.parent.detail };
         }
