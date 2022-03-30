@@ -16,8 +16,11 @@ async function main(): Promise<void> {
         try {
             const filepathR = join(CSV_WORK_DIR, filename);
             const filepathD = join(CSV_DEST_DIR, basename(filename) + ".txt");
-
-            if (access(filepathD, constants.F_OK)) rm(filepathD);
+            try {
+                await access(filepathD, constants.F_OK);
+            } catch {
+                rm(filepathD);
+            }
 
             const csvString = await readFile(filepathR);
             csvtojson({ output: "line" })
@@ -27,7 +30,8 @@ async function main(): Promise<void> {
                     await appendFile(filepathD, `${csvLine}\n`, "utf8");
                 });
             await rm(filepathR);
-        } catch (error) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
             console.error("Oops...Something went wrong!");
             console.error(error.message);
         }
@@ -39,7 +43,8 @@ async function getListCSVFiles(path: string): Promise<string[]> {
         let names = await readdir(path);
         names = names.filter((name: string) => name.endsWith("csv"));
         return names;
-    } catch (error) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
         console.error(`ERROR: ${error.message}`);
         return [];
     }
